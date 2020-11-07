@@ -1,45 +1,45 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.io.IOException;
+import java.util.Scanner;
+public class Nqueensprocess {
+	
+	static int[] rows = new int[32];
+	static boolean findSolution =false;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+	static boolean valid(int row, int column) {
+		for (int lastPlayed = 0; lastPlayed < column; lastPlayed++) {
+			if (rows[lastPlayed] == row || Math.abs(rows[lastPlayed] - row) == Math.abs(lastPlayed-column)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
+	static void solution(int column) {
+		Scanner kb = new Scanner(System.in);
+		int n = kb.nextInt();
+		if(n>0 || n<=32) {
+		if (column == n) {
+			for (int i = 0; i < n; i++) {
+				System.out.print("[" + (rows[i] + 1) + "] ");
+			}
+			System.out.println();
+			findSolution = true;
+			return;
+		}
+		for (int row = 0; row < n; row++) {
+			if (valid(row, column)) {
 
-public class Nqueensprocess extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Nqueensprocess frame = new Nqueensprocess();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+				rows[column] = row;
+				solution(column + 1);
+				if(findSolution) {
+					break;
 				}
 			}
-		});
+		}
 	}
+}
 
-	/**
-	 * Create the frame.
-	 */
-	public Nqueensprocess() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+	public static void main(String[] args) throws IOException {
+		solution(0);
 	}
-	
-	public void Nqueens(){
-		
-	}
-
 }
